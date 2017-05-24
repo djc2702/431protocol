@@ -13,11 +13,12 @@ def server(port):
         c.send(data)
         c.close()
 
-def client(port):
+def client(host, port):
     sock = socket.socket()
-    sock.connect(('flatline', port))
+    sock.connect((host, port))
     data = sock.recv(1024)
     text = data.decode('ascii')
+    print('Client has been assigned socket name', sock.getsockname())
     print('Active user on remote machine is:', text)
     data = 'Received username'
     text = data.encode('ascii')
@@ -26,9 +27,10 @@ def client(port):
 
 if __name__ == '__main__':
     choices = {'client': client, 'server': server}
-    parser = argparse.ArgumentParser(description='Send and receive UDP locally')
+    parser = argparse.ArgumentParser(description='Send and receive over TCP')
     parser.add_argument('role', choices=choices, help='Which role to play: server or client')
-    parser.add_argument('-p', metavar='PORT', type=int, default=1060, help='UDP port (default 1060)')
+    parser.add_argument('host', help='interface the server listens at;''host the client responds to')
+    parser.add_argument('-p', metavar='PORT', type=int, default=1060, help='TCP port (default 1060)')
     args = parser.parse_args()
     function = choices[args.role]
-    function(args.p)
+    function(args.host, args.p)
