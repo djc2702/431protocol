@@ -1,8 +1,8 @@
 import socket, sys, os, subprocess, argparse
 
-def server(port):
+def server(host, port):
     sock = socket.socket()
-    sock.bind(('0.0.0.0', port)) # accept from any local machine
+    sock.bind((host, port)) # accept from any local machine
     sock.listen(5)
     print('Listening at {}'.format(sock.getsockname()))
     while True:
